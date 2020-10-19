@@ -380,26 +380,60 @@ summary {
 <h2>Scene 1</h2>
 <p><strong>Prompt:</strong> Without using rep_sample_n(), sample 30 beads at random from the urn five times. The resulting tibble should have two columns: <code>replicate</code> (with a value of 1 to 5) and <code>samp</code> (a list column in which each item is a tibble with 30 rows sampled, with replacement, from <code>urn</code>). Each tibble in <code>samp</code> will have the same two columns as <code>urn</code>. Hint: <code>sample_n()</code> is a very handy function. It will sample a random selection of rows from a tibble which you pass it. Also, use <code>str()</code> and <code>view()</code> interactively to confirm that your oject looks the way you want.</p>
 <pre><code>## # A tibble: 3 x 2
-##      ID color
-##   &lt;int&gt; &lt;chr&gt;
-## 1   614 blue 
-## 2   694 red  
-## 3   539 red</code></pre>
+##      ID color 
+##   &lt;int&gt; &lt;chr&gt; 
+## 1  1245 yellow
+## 2  1305 yellow
+## 3   859 blue</code></pre>
 </div>
 <div id="scene-2" class="section level2">
 <h2>Scene 2</h2>
 <p><strong>Prompt:</strong> What is the probability that, if you sample 50 beads at random, there will be more red than blue beads in the sample?</p>
+<pre><code>## # A tibble: 1 x 1
+##   red_prob
+##      &lt;dbl&gt;
+## 1    0.469</code></pre>
+<pre><code>## [1] 500</code></pre>
 </div>
 <div id="scene-3" class="section level2">
 <h2>Scene 3</h2>
 <p><strong>Prompt:</strong> When performing inference, it is often useful to ask: What are the range of things which might happen if X is true? We saw that in several examples in chapter 5. Assume that a person is sick, how likely is she to test positive for the disease? Assume that there is one white marble in the bag, how likely are we to draw zero white marbles out of three?</p>
 <p>Let’s follow that same intuition in the case of the urn. We have an urn with 1,000 beads. Assume that there are 400 red beads. (This is not true! In fact, we know that there are 500 red beads in the urn. But make the assumption anyway.)</p>
 <ul>
-<li><p>Using <code>rbinom()</code> calculate the number of red beads we might draw from the urn with a paddle of size 25. Hint: <code>n</code> is 1 in this case. What does it mean if we set <code>n</code> equal to 10?</p></li>
-<li><p>Create a tibble with two columns: <code>numb_red_urn</code> and <code>numb_red_paddle</code>. Initially, the tibble has one row, with <code>numb_red_urn</code> set to 400, as in the previous question, and <code>numb_red_paddle</code> being the number of red drawn using <code>rbinom</code>.</p></li>
-<li><p>Extend that tibble to have 7 rows, with <code>numb_red_urn</code> set to 100, 200, …, 700. Make sure that the results in <code>numb_red_paddle</code> make sense. <code>seq()</code> and <code>map_int()</code> are useful.</p></li>
-<li><p>Still using a tibble with those 7 rows, call <code>rbinom()</code> with <code>n = 10</code>. (This may require other changes in your code.) Turn the resulting tibble, in which <code>numb_red_paddle</code> is a list column into an easier-to-work-with tibble in which <code>numb_red_paddle</code> is an integer. Hint: <code>unnest()</code>. Interpret the resulting object.</p></li>
+<li>Using <code>rbinom()</code> calculate the number of red beads we might draw from the urn with a paddle of size 25. Hint: <code>n</code> is 1 in this case. What does it mean if we set <code>n</code> equal to 10?</li>
 </ul>
+<pre><code>##  [1]  9  8 12 12 11 11 12  9 11 10</code></pre>
+<ul>
+<li>Create a tibble with two columns: <code>numb_red_urn</code> and <code>numb_red_paddle</code>. Initially, the tibble has one row, with <code>numb_red_urn</code> set to 400, as in the previous question, and <code>numb_red_paddle</code> being the number of red drawn using <code>rbinom</code>.</li>
+</ul>
+<pre><code>## # A tibble: 1 x 2
+##   numb_red_urn numb_red_paddle
+##          &lt;dbl&gt;           &lt;int&gt;
+## 1          400              12</code></pre>
+<ul>
+<li>Extend that tibble to have 7 rows, with <code>numb_red_urn</code> set to 100, 200, …, 700. Make sure that the results in <code>numb_red_paddle</code> make sense. <code>seq()</code> and <code>map_int()</code> are useful.</li>
+</ul>
+<pre><code>## # A tibble: 7 x 2
+##   numb_red_urn numb_red_paddle
+##          &lt;dbl&gt;           &lt;int&gt;
+## 1          100               2
+## 2          200               6
+## 3          300               8
+## 4          400              10
+## 5          500              14
+## 6          600              15
+## 7          700              16</code></pre>
+<ul>
+<li>Still using a tibble with those 7 rows, call <code>rbinom()</code> with <code>n = 10</code>. (This may require other changes in your code.) Turn the resulting tibble, in which <code>numb_red_paddle</code> is a list column into an easier-to-work-with tibble in which <code>numb_red_paddle</code> is an integer. Hint: <code>unnest()</code>. Interpret the resulting object.</li>
+</ul>
+<pre><code>## # A tibble: 5 x 2
+##   numb_red_urn numb_red_paddle
+##          &lt;dbl&gt;           &lt;int&gt;
+## 1          100               5
+## 2          200               7
+## 3          100               3
+## 4          700              17
+## 5          200               5</code></pre>
 </div>
 
 

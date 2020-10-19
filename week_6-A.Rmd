@@ -68,9 +68,32 @@ Let's follow that same intuition in the case of the urn. We have an urn with 1,0
 
 * Using `rbinom()` calculate the number of red beads we might draw from the urn with a paddle of size 25. Hint: `n` is 1 in this case. What does it mean if we set `n` equal to 10?
 
+```{r}
+rbinom(size = 25, n = 10, prob = 0.4) 
+
+```
+
 * Create a tibble with two columns: `numb_red_urn` and `numb_red_paddle`. Initially, the tibble has one row, with `numb_red_urn` set to 400, as in the previous question, and `numb_red_paddle` being the number of red drawn using `rbinom`.
+```{r}
+tibble(numb_red_urn = 400) %>%
+  mutate(numb_red_paddle = rbinom(size = 25, n = 1, prob = numb_red_urn/1000))
+
+```
 
 * Extend that tibble to have 7 rows, with `numb_red_urn` set to 100, 200, ..., 700. Make sure that the results in `numb_red_paddle` make sense. `seq()` and `map_int()` are useful.
 
+```{r}
+tibble(numb_red_urn = seq(from = 100, to = 700, by = 100)) %>%
+  mutate(numb_red_paddle = map_int(numb_red_urn, ~ rbinom(size = 25, n = 1, prob = ./1000))) 
+  
+```
+
 * Still using a tibble with those 7 rows, call `rbinom()` with `n = 10`. (This may require other changes in your code.) Turn the resulting tibble, in which `numb_red_paddle` is a list column into an easier-to-work-with tibble in which `numb_red_paddle` is an integer. Hint: `unnest()`. Interpret the resulting object.
+
+```{r}
+tibble(numb_red_urn = seq(from = 100, to = 700, by = 100)) %>%
+  mutate(numb_red_paddle = map(numb_red_urn, ~ rbinom(size = 25, n = 10, prob = ./1000))) %>% 
+  unnest(numb_red_paddle) %>% 
+  sample_n(5)
+```
 
